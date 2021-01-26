@@ -112,4 +112,8 @@ JOIN Departments AS D ON E.DepartmentID = D.DepartmentID
 ORDER BY E.EmployeeID
 
 --11.Min Average Salary
-
+SELECT TOP (1)
+AVG(E.Salary) AS MinAverageSalary
+FROM Employees AS E
+GROUP BY E.DepartmentID
+ORDER BY MinAverageSalary
