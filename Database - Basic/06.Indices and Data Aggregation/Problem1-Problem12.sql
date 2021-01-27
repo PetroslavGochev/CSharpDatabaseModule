@@ -94,3 +94,19 @@ FROM WizzardDeposits
 WHERE DepositStartDate > '1985-01-01'
 GROUP BY DepositGroup,IsDepositExpired
 ORDER BY DepositGroup DESC,IsDepositExpired ASC
+
+
+--12.Rich Wizard, Poor Wizard
+
+SELECT 
+W.FirstName,
+w.DepositAmount,
+GHOST.FirstName AS GHOSTName,
+GHOST.DepositAmount AS GhostDeposit
+FROM
+(SELECT 
+FirstName,
+DepositAmount
+FROM WizzardDeposits
+) AS GHOST , WizzardDeposits AS W
+
