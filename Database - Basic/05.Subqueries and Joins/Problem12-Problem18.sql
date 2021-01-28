@@ -30,15 +30,24 @@ RIGHT JOIN Countries AS C ON CR.CountryCode = C.CountryCode
 WHERE C.ContinentCode = 'AF'
 ORDER BY C.CountryName ASC
 
---15.Continents and Currencies
-SELECT * FROM Continents
-SELECT * FROM Countries
-
+----15.Continents and Currencies
+SELECT 
+t.ContinentCode,
+t.CurrencyCode,
+t.CurrencyUsage
+FROM
+(
 SELECT
-CT.CurrencyCode,
-COUNT(*)
-FROM Countries AS CT
-GROUP BY CT.CurrencyCode
+ContinentCode,
+CurrencyCode,
+COUNT(*) AS CurrencyUsage,
+DENSE_RANK() OVER (PARTITION BY ContinentCode Order by COUNT(*) DESC ) AS Ranked
+FROM Countries
+GROUP BY ContinentCode,CurrencyCode) AS t
+WHERE t.Ranked = 1 AND T.CurrencyUsage != 1
+ORDER BY t.ContinentCode,T.CurrencyCode
+
+ 
 
 
 --16.Countries Without Any Mountains
@@ -71,24 +80,27 @@ ORDER BY HighestPeakElevation DESC,LongestRiverLength DESC,C.CountryName ASC
 
 
 --18.Highest Peak Name and Elevation by Country
-SELECT * FROM MountainsCountries
-SELECT 
-C.CountryName,
-CASE 
-	WHEN P.PeakName IS NULL THEN '(no highest peak)'
-	ELSE P.PeakName
-	END AS [Highest Peak Name],
-CASE 
-	WHEN P.Elevation IS NULL THEN 0
-	ELSE P.Elevation
-	END AS [Highest Peak Elevetion],
-CASE 
-	WHEN M.MountainRange IS NULL THEN '(no mountain)'
-	ELSE M.MountainRange
-	END AS [Mountain]
-FROM Countries AS c
-FULL JOIN MountainsCountries AS MC ON MC.CountryCode = C.CountryCode
-FULL JOIN Mountains AS M ON M.Id = MC.MountainId
-FULL JOIN Peaks AS P ON P.MountainId = MC.MountainId
+SELECT TOP(5)
+CountryMountainsPeaks.Country,
+ISNULL(CountryMountainsPeaks.[Highest Peak Name],'(no highest peak)'),
+ISNULL(CountryMountainsPeaks.[Highest Peak Elevation],0),
+ISNULL(CountryMountainsPeaks.Mountain,'(no mountain)')
+FROM
+	(SELECT 
+		C.CountryName AS Country,
+		P.PeakName AS [Highest Peak Name],
+		P.Elevation AS [Highest Peak Elevation],
+		M.MountainRange AS Mountain,
+		DENSE_RANK() OVER (PARTITION BY C.CountryName ORDER BY P.Elevation DESC) AS Ranked
+	FROM Countries AS C
+		LEFT JOIN MountainsCountries AS  MC ON C.CountryCode = MC.CountryCode
+		LEFT JOIN Mountains AS M ON M.Id = MC.MountainId
+		LEFT JOIN Peaks AS P ON P.MountainId = MC.MountainId) AS CountryMountainsPeaks
+WHERE CountryMountainsPeaks.Ranked = 1
+ORDER BY CountryMountainsPeaks.Country,CountryMountainsPeaks.[Highest Peak Name]
+
+
+
+
 
 

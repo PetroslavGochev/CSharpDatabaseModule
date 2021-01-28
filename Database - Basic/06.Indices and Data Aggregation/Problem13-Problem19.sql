@@ -17,10 +17,29 @@ GROUP BY E.DepartmentID
 
 --15. Employees Average Salaries
 
---SELECT 
---E.EmployeeID
---FROM Employees AS E
---WHERE E.Salary > 30000 
+SELECT 
+DepartmentID,
+EmployeeID,
+ManagerID,
+Salary
+INTO EmployeeWithSalaryOver30000
+FROM Employees
+WHERE Salary > 30000
+
+DELETE FROM EmployeeWithSalaryOver30000
+WHERE ManagerID = 42
+
+UPDATE EmployeeWithSalaryOver30000
+SET Salary = Salary + 5000
+WHERE DepartmentID = 1
+
+SELECT 
+E.DepartmentID,
+AVG(E.Salary)
+FROM EmployeeWithSalaryOver30000 AS E
+GROUP BY E.DepartmentID
+
+
 
 --16.Employees Maximum Salaries
 SELECT
@@ -37,6 +56,17 @@ FROM Employees
 WHERE ManagerID IS NULL
 
 --18.3rd Highest Salary
+SELECT 
+T.DepartmentID,
+T.Salary AS ThirdHighestSalary
+FROM
+(SELECT 
+DepartmentID,
+Salary,
+DENSE_RANK() OVER (PARTITION BY DepartmentID ORDER BY Salary DESC) as Ranked
+FROM Employees
+GROUP BY DepartmentID,Salary) AS T
+WHERE T.Ranked = 3
 
 
 

@@ -97,16 +97,13 @@ ORDER BY DepositGroup DESC,IsDepositExpired ASC
 
 
 --12.Rich Wizard, Poor Wizard
+SELECT SUM(Difference) AS SumDifference
+FROM (
+         SELECT FirstName                                                AS HostWirzard,
+                DepositAmount                                            AS HostWizardDeposit,
+                LEAD(FirstName) OVER (ORDER BY Id )                      AS GuestWizard,
+                LEAD(DepositAmount) OVER (ORDER BY id)                   AS GuestDeposit,
+                (DepositAmount - LEAD(DepositAmount) OVER (ORDER BY id)) AS Difference
+         FROM WizzardDeposits) AS DifferenceAmountQuery
 
-SELECT 
-W.FirstName,
-w.DepositAmount,
-GHOST.FirstName AS GHOSTName,
-GHOST.DepositAmount AS GhostDeposit
-FROM
-(SELECT 
-FirstName,
-DepositAmount
-FROM WizzardDeposits
-) AS GHOST , WizzardDeposits AS W
 
