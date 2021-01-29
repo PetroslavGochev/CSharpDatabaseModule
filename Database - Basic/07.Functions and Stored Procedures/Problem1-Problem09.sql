@@ -44,18 +44,7 @@ CREATE PROCEDURE usp_GetEmployeesFromTown @TownName NVARCHAR(50)
 EXEC usp_GetEmployeesFromTown @TownName = 'Sofia'
 
 --05.Salary Level Function
-CREATE FUNCTION dbo.StripWWWandCom (@input VARCHAR(250))
-RETURNS VARCHAR(250)
-AS BEGIN
-    DECLARE @Work VARCHAR(250)
 
-    SET @Work = @Input
-
-    SET @Work = REPLACE(@Work, 'www.', '')
-    SET @Work = REPLACE(@Work, '.com', '')
-
-    RETURN @work
-END
 CREATE FUNCTION ufn_GetSalaryLevel(@salary DECIMAL(18,4))
 RETURNS VARCHAR(250)
 AS BEGIN
@@ -110,3 +99,44 @@ BEGIN
     RETURN 1
 END
 GO
+
+--08.Delete Employees and Departments
+SELECT * FROM EmployeesProjects
+SELECT * FROM Employees
+SELECT * FROM Departments
+
+CREATE OR ALTER PROCEDURE usp_DeleteEmployeesFromDepartment (@departmentId INT)
+AS
+	DELETE FROM EmployeesProjects
+	WHERE EmployeeID = ( 
+		SELECT EmployeeID FROM Employees
+		WHERE DepartmentID = @departmentId);
+	
+	UPDATE Employees
+	SET ManagerID = NULL
+	WHERE ManagerID = (
+		SELECT EmployeeID 
+		FROM Employees 
+		WHERE DepartmentID = @departmentId)
+
+	ALTER TABLE Departments
+    ALTER COLUMN ManagerID int;
+
+    UPDATE Departments
+    SET ManagerID = NULL
+    WHERE ManagerID IN (SELECT EmployeeID
+                        FROM Employees
+                        WHERE DepartmentID = @departmentId);
+
+	DELETE FROM Employees
+	WHERE DepartmentID = @departmentId
+
+	DELETE FROM Departments
+	WHERE DepartmentID = @departmentId
+
+	SELECT count(*)
+    FROM Employees
+    where DepartmentID=@departmentId
+GO
+
+EXEC usp_DeleteEmployeesFromDepartment @departmentID = 2
