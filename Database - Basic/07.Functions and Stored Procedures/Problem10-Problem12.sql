@@ -8,16 +8,17 @@ GO
 EXEC usp_GetHoldersFullName
 
 --10.People with Balance Higher Than
-CREATE PROCEDURE usp_GetHoldersWithBalanceHigherThan (@number DECIMAL (18,4))
-AS 
-		SELECT 
-		AH.FirstName,
-		AH.LastName
-		FROM AccountHolders AS AH
-		JOIN Accounts AS A ON AH.Id = A.Id
-		WHERE A.Balance > @number
-		ORDER BY AH.FirstName,AH.LastName
-GO
+CREATE PROCEDURE usp_GetHoldersWithBalanceHigherThan(@Money decimal(18, 4))
+AS
+BEGIN
+    SELECT FirstName AS 'First Name',
+           LastName  AS 'Last Name'
+    FROM Accounts AS a
+             JOIN AccountHolders AH ON a.AccountHolderId = AH.Id
+    GROUP BY FirstName, LastName
+    HAVING SUM(Balance) > @Money
+    ORDER BY FirstName, LastName
+END
 
 --11.Future Value Function
 CREATE OR ALTER FUNCTION ufn_CalculateFutureValue (@initialSum DECIMAL (18,4),@yearlyInterestRate FLOAT,@numberOFYears INT)
@@ -33,16 +34,18 @@ GO
 SELECT dbo.ufn_CalculateFutureValue(1000,0.1,5)
 
 --12.Calculating Interest
-CREATE PROCEDURE usp_CalculateFutureValueForAccount 
+CREATE  PROC usp_CalculateFutureValueForAccount(@accountId INT, @interestRate FLOAT)
 AS
-	SELECT 
-	AH.Id AS [Account Id],
-	AH.FirstName AS [First Name],
-	AH.LastName AS [Last Name],
-	A.Balance AS [Current Ballance],
-	dbo.ufn_CalculateFutureValue(A.Balance,A.Id * 0.1,5) AS [Balance in 5 year]
-	FROM AccountHolders AS AH
-	JOIN Accounts AS A ON A.Id = AH.Id
+BEGIN
+    SELECT a.Id    ,
+           AH.FirstName,
+          AH.LastName ,
+          a.Balance,
+           dbo.ufn_CalculateFutureValue(a.Balance,@interestRate, 5)                                       
+    FROM Accounts AS a
+             JOIN AccountHolders AS AH ON AH.Id = a.AccountHolderId
+             WHERE a.Id=@accountId;
+END
 GO
 
 EXEC usp_CalculateFutureValueForAccount

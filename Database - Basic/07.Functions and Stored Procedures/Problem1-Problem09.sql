@@ -1,5 +1,5 @@
 --01.Employees with Salary Above 35000
-CREATE OR ALTER PROCEDURE usp_GetEmployeesSalaryAbove35000
+CREATE sPROCEDURE usp_GetEmployeesSalaryAbove35000
 	AS
 		SELECT 
 		FirstName,
@@ -21,7 +21,7 @@ CREATE PROCEDURE usp_GetEmployeesSalaryAboveNumber @Number DECIMAL(18,4)
 EXEC usp_GetEmployeesSalaryAboveNumber @Number = 48100
 
 --03.Town Names Starting With
-CREATE OR ALTER PROCEDURE usp_GetTownsStartingWith  @Letter NCHAR
+CREATE PROCEDURE usp_GetTownsStartingWith  @Letter NVARCHAR(20)
 	AS 
 		Select 
 		Towns.Name AS Town
@@ -51,9 +51,9 @@ AS BEGIN
 	DECLARE @result NVARCHAR(250) 
 	 IF (@salary < 30000)
         SET @result = 'Low';
-    ELSE IF (@salary <= 50000)
+    ELSE IF (@salary>= 30000 AND @salary <= 50000)
             SET @result = 'Average';
-        ELSE
+      ELSE
             SET @result = 'High';
 	return @result
 END
@@ -101,26 +101,24 @@ END
 GO
 
 --08.Delete Employees and Departments
-SELECT * FROM EmployeesProjects
-SELECT * FROM Employees
-SELECT * FROM Departments
-
-CREATE OR ALTER PROCEDURE usp_DeleteEmployeesFromDepartment (@departmentId INT)
+CREATE PROC usp_DeleteEmployeesFromDepartment(@departmentId INT)
 AS
-	DELETE FROM EmployeesProjects
-	WHERE EmployeeID = ( 
-		SELECT EmployeeID FROM Employees
-		WHERE DepartmentID = @departmentId);
-	
-	UPDATE Employees
-	SET ManagerID = NULL
-	WHERE ManagerID = (
-		SELECT EmployeeID 
-		FROM Employees 
-		WHERE DepartmentID = @departmentId)
+BEGIN
 
-	ALTER TABLE Departments
-    ALTER COLUMN ManagerID int;
+    DELETE
+    FROM EmployeesProjects
+    WHERE EmployeeID IN (SELECT EmployeeID
+                         FROM Employees
+                         WHERE DepartmentID = @departmentId);
+
+    UPDATE Employees
+    SET ManagerID=NULL
+    WHERE ManagerID IN (SELECT EmployeeID
+                        FROM Employees
+                        WHERE DepartmentID = @departmentId);
+
+    ALTER TABLE Departments
+        ALTER COLUMN ManagerID int;
 
     UPDATE Departments
     SET ManagerID = NULL
@@ -128,15 +126,16 @@ AS
                         FROM Employees
                         WHERE DepartmentID = @departmentId);
 
-	DELETE FROM Employees
-	WHERE DepartmentID = @departmentId
+    --delete employees from departments
 
-	DELETE FROM Departments
-	WHERE DepartmentID = @departmentId
+    DELETE FROM Employees
+    WHERE DepartmentID=@departmentId
 
-	SELECT count(*)
+    DELETE FROM Departments
+    where DepartmentID=@departmentId
+
+    SELECT count(*)
     FROM Employees
     where DepartmentID=@departmentId
-GO
 
-EXEC usp_DeleteEmployeesFromDepartment @departmentID = 2
+END
