@@ -6,19 +6,19 @@ namespace _03.MinionNames
 {
     public class StartUp
     {
-       private const string connectionString = @"Server=.;Database=MinionsDB;Integrated Security = true";
+        private const string connectionString = @"Server=.;Database=MinionsDB;Integrated Security = true";
         static void Main(string[] args)
         {
             using SqlConnection sqlConnection = new SqlConnection(connectionString);
             sqlConnection.Open();
             Console.WriteLine(GetVillianWithId(sqlConnection, 1));
-            
+
         }
 
-        public static string GetVillianWithId(SqlConnection sqlConnection,int villianId)
+        public static string GetVillianWithId(SqlConnection sqlConnection, int villianId)
         {
             StringBuilder sb = new StringBuilder();
-            string query = 
+            string query =
                 @"SELECT [Name] FROM Villains
                   WHERE Id = @villianId";
             SqlCommand sqlCommand = new SqlCommand(query, sqlConnection);
@@ -27,6 +27,6 @@ namespace _03.MinionNames
             sb.Append($"Viillian: ");
             sb.Append(sqlReader);
             return sb.ToString();
-        } 
+        }
     }
 }

@@ -1,7 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
+﻿using System;
+using System.Data.SqlClient;
 
-namespace ADB.NET
+namespace _02.VillianNames
 {
     public class StartUp
     {
@@ -26,9 +26,6 @@ namespace ADB.NET
                 string countOfMinions = sqlReader["MinionsCount"]?.ToString();
                 Console.WriteLine($"{firstname} - {countOfMinions}");
             }
-
-
-
         }
     }
 }
