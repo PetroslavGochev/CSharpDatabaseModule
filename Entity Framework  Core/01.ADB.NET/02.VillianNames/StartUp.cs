@@ -26,6 +26,7 @@ namespace _02.VillianNames
                 string countOfMinions = sqlReader["MinionsCount"]?.ToString();
                 Console.WriteLine($"{firstname} - {countOfMinions}");
             }
+            sqlConnection.Close();
         }
     }
 }
