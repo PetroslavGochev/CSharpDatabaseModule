@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection;
@@ -30,8 +31,6 @@ namespace MiniORM
 
         public IReadOnlyCollection<T> Removed =>
             this.removed.AsReadOnly();
-
-        public static object DbContext { get; private set; }
 
         public void Add(T item) =>
             this.added.Add(item);
