@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace _01.Student_System
+namespace P01_StudentSystem
 {
-    class StartUp
+    public class StartUp
     {
         static void Main(string[] args)
         {
-            
+           
         }
     }
 }

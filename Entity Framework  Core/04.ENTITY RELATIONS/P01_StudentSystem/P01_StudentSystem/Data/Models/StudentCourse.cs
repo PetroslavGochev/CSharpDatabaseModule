@@ -1,4 +1,4 @@
-﻿namespace _01.Student_System.Data.Models
+﻿namespace P01_StudentSystem.Data.Models
 {
     public class StudentCourse
     {
