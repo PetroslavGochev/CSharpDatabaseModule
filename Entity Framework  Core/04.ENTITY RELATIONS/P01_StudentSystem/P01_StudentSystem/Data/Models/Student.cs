@@ -20,8 +20,8 @@ namespace P01_StudentSystem.Data.Models
 
         public DateTime Birthday { get; set; }
 
-        public ICollection<Homework> HomeworkSubmissions { get; set; }
+        public virtual ICollection<Homework> HomeworkSubmissions { get; set; }
 
-        public ICollection<StudentCourse> CourseEnrollments { get; set; }
+        public virtual ICollection<StudentCourse> CourseEnrollments { get; set; }
     }
 }

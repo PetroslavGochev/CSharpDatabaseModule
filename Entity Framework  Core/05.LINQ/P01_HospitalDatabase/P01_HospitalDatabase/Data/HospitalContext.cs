@@ -59,6 +59,10 @@ namespace P01_HospitalDatabase.Data
                 .HasOne(v => v.Patient)
                 .WithMany(p => p.Visitations)
                 .HasForeignKey(v => v.PatientId);
+                entity
+               .HasOne(v => v.Doctor)
+               .WithMany(p => p.Visitations)
+               .HasForeignKey(v => v.DoctorId);
             });
             modelBuilder.Entity<Diagnose>(entity =>
             {
@@ -89,6 +93,15 @@ namespace P01_HospitalDatabase.Data
                 entity
                .Property(p => p.Email)
                .IsUnicode(false);
+            });
+            modelBuilder.Entity<Doctor>(entity =>
+            {
+                entity
+                .Property(d => d.Name)
+                .IsUnicode(true);
+                entity
+                .Property(d => d.Speciality)
+                .IsUnicode(true);
             });
         }
     }

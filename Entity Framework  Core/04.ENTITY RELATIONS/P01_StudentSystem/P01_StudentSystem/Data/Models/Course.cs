@@ -23,9 +23,9 @@ namespace P01_StudentSystem.Data.Models
 
         public decimal Price { get; set; }
 
-        public ICollection<Homework> HomeworkSubmissions { get; set; }
+        public virtual ICollection<Homework> HomeworkSubmissions { get; set; }
 
-        public ICollection<Recourse> Resources { get; set; }
-        public ICollection<StudentCourse> StudentsEnrolled { get; set; }
+        public virtual ICollection<Recourse> Resources { get; set; }
+        public virtual ICollection<StudentCourse> StudentsEnrolled { get; set; }
     }
 }

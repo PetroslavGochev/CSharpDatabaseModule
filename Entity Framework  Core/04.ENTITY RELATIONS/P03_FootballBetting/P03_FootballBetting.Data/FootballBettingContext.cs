@@ -19,16 +19,16 @@ namespace P03_FootballBetting.Data
 
 
 
-        public DbSet<Team> Teams { get; set; }
-        public DbSet<Color> Colors { get; set; }
-        public DbSet<Town> Towns { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Player> Players { get; set; }
-        public DbSet<Position> Positions { get; set; }
-        public DbSet<PlayerStatistic> PlayerStatistics { get; set; }
-        public DbSet<Game> Games { get; set; }
-        public DbSet<Bet> Bets { get; set; }
-        public DbSet<User> Users { get; set; }
+        public virtual DbSet<Team> Teams { get; set; }
+        public virtual DbSet<Color> Colors { get; set; }
+        public virtual DbSet<Town> Towns { get; set; }
+        public virtual DbSet<Country> Countries { get; set; }
+        public virtual DbSet<Player> Players { get; set; }
+        public virtual  DbSet<Position> Positions { get; set; }
+        public virtual DbSet<PlayerStatistic> PlayerStatistics { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<Bet> Bets { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
