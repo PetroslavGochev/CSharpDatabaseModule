@@ -18,7 +18,7 @@
             var context = new BookShopContext();
             using (context)
             {
-                Console.WriteLine(RemoveBooks(context));
+                Console.WriteLine(GetBooksByCategory(context,Console.ReadLine()));
             }
         }
 
@@ -272,7 +272,7 @@
                      })
                      .OrderByDescending(a => a.SumOfCopies)
                      .ToList();
-                
+
                 foreach (var a in books)
                 {
                     sb.AppendLine($"{a.FullName} - {a.SumOfCopies}");
@@ -318,7 +318,7 @@
                          (context.BooksCategories
                          .Where(b => b.CategoryId == c.CategoryId)
                          .OrderByDescending(b => b.Book.ReleaseDate)
-                         .Select(b=> new
+                         .Select(b => new
                          {
                              Title = b.Book.Title,
                              Year = b.Book.ReleaseDate.Value.Year
@@ -383,4 +383,3 @@
         }
     }
 }
-
