@@ -13,6 +13,10 @@
     {
         public static void Main()
         {
+            int[] number = Console.ReadLine()
+                .Split(",", StringSplitOptions.RemoveEmptyEntries)
+                .Select(int.Parse)
+                .ToArray();
             //using var db = new BookShopContext();
             //DbInitializer.ResetDatabase(db);
             var context = new BookShopContext();
