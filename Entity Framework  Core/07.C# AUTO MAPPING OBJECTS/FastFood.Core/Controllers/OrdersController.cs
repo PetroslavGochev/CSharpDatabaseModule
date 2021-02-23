@@ -4,6 +4,7 @@
     using System.Linq;
     using AutoMapper;
     using Data;
+    using FastFood.Models;
     using Microsoft.AspNetCore.Mvc;
     using ViewModels.Orders;
 
@@ -31,7 +32,15 @@
 
         [HttpPost]
         public IActionResult Create(CreateOrderInputModel model)
-        { 
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Error", "Home");
+            }
+
+          
+
             return this.RedirectToAction("All", "Orders");
         }
 

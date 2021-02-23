@@ -5,6 +5,11 @@ namespace FastFood.Models
 
     public class Employee
 	{
+
+        public Employee()
+        {
+			this.Orders = new HashSet<Order>();
+        }
 		public int Id { get; set; }
 
 		[Required]
