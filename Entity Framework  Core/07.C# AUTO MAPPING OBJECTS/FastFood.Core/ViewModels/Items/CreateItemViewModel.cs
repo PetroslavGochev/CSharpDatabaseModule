@@ -2,6 +2,6 @@
 {
     public class CreateItemViewModel
     {
-        public string CategoryName { get; set; }
+        public int CategoryId { get; set; }
     }
 }

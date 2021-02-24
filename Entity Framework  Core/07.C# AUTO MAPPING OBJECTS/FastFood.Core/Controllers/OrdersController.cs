@@ -3,8 +3,10 @@
     using System;
     using System.Linq;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using Data;
     using FastFood.Models;
+    using FastFood.Models.Enums;
     using Microsoft.AspNetCore.Mvc;
     using ViewModels.Orders;
 
@@ -38,7 +40,16 @@
             {
                 return RedirectToAction("Error", "Home");
             }
-
+            var order = this.mapper.Map<Order>(model);
+            order.DateTime = DateTime.Parse(DateTime.Now.ToString("G"));
+            order.Type = Enum.Parse<OrderType>(model.Type);
+            order.OrderItems.Add(new OrderItem()
+            {
+                ItemId = model.ItemId,
+                Order = order
+            });
+            this.context.Orders.Add(order);
+            this.context.SaveChanges();
           
 
             return this.RedirectToAction("All", "Orders");
@@ -46,7 +57,11 @@
 
         public IActionResult All()
         {
-            throw new NotImplementedException();
+            var order = this.context
+                .Orders
+                .ProjectTo<OrderAllViewModel>(mapper.ConfigurationProvider)
+                .ToList();
+            return this.View(order);
         }
     }
 }

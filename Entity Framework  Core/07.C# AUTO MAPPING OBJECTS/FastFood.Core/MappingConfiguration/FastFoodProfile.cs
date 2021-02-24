@@ -6,6 +6,7 @@
     using FastFood.Core.ViewModels.Items;
     using FastFood.Core.ViewModels.Orders;
     using FastFood.Models;
+    using System.Linq;
     using ViewModels.Positions;
 
     public class FastFoodProfile : Profile
@@ -21,9 +22,9 @@
 
             //Employees
             this.CreateMap<Position, RegisterEmployeeViewModel>()
-                .ForMember(x => x.PositionName, y => y.MapFrom(s => s.Name));
-            this.CreateMap<RegisterEmployeeInputModel, Employee>()
-                .ForPath(x => x.Position.Name, y => y.MapFrom(s => s.Name));
+                .ForMember(x => x.PositionId, y => y.MapFrom(s => s.Id));
+
+            this.CreateMap<RegisterEmployeeInputModel, Employee>();
 
             this.CreateMap<Employee, EmployeesAllViewModel>()
                 .ForMember(x => x.Position, y => y.MapFrom(s => s.Position.Name));
@@ -35,12 +36,20 @@
 
             //Items
             this.CreateMap<Category,CreateItemViewModel >()
-                .ForMember(x=>x.CategoryName,y=>y.MapFrom(s=>s.Name));
-            this.CreateMap<CreateItemInputModel, Item>()
-                .ForPath(x => x.Category.Name, y => y.MapFrom(s => s.Name));
+                .ForMember(x=>x.CategoryId,y=>y.MapFrom(s=>s.Id));
+            this.CreateMap<CreateItemInputModel, Item>();
 
             this.CreateMap<Item, ItemsAllViewModels>()
                 .ForMember(x => x.Category, y => y.MapFrom(s => s.Category.Name));
+
+            //Orders
+            this.CreateMap<CreateOrderInputModel, Order>()
+                .ForMember(x => x.EmployeeId, y => y.MapFrom(s => s.EmployeeId));
+
+            this.CreateMap<Order, OrderAllViewModel>()
+                .ForMember(x => x.Customer, y => y.MapFrom(s => s.Customer))
+                .ForMember(x => x.Employee, y => y.MapFrom(s => s.Employee.Name))
+                .ForMember(x=>x.DateTime,y=>y.MapFrom(s=>s.DateTime.ToString("MM/dd/yyyy HH:mm")));
 
 
         }
