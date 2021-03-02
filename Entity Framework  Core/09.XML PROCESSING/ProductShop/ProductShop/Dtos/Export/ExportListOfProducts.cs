@@ -7,15 +7,12 @@ namespace ProductShop.Dtos.Export
     [XmlType("SoldProducts")]
     public class ExportListOfProducts
     {
-        public ExportListOfProducts()
-        {
-            this.Products = new List<Product>();
-        }
+
         [XmlElement("count")]
         public int Count { get; set; }
 
-        [XmlElement("products")]
-        public ICollection<Product> Products { get; set; }
+        [XmlArray("products")]
+        public ExportProductNameAndPriceDto[] Products { get; set; }
     }
 
 }

@@ -7,10 +7,7 @@ namespace ProductShop.Dtos.Export
     [XmlType("User")]
     public class ExportUsers
     {
-        public ExportUsers()
-        {
-            this.SoldProducts = new List<ExportListOfProducts>();
-        }
+        
 
         [XmlElement("firstName")]
         public string FirstName { get; set; }
@@ -22,6 +19,6 @@ namespace ProductShop.Dtos.Export
         public int? Age { get; set; }
 
         [XmlElement("SoldProducts")]
-        public ICollection<ExportListOfProducts> SoldProducts { get; set; }
+        public ExportListOfProducts SoldProducts { get; set; }
     }
 }
