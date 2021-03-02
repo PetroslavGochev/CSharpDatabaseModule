@@ -121,6 +121,7 @@ namespace ProductShop
                 })
                 .OrderBy(u => u.FirstName)
                 .ThenBy(u => u.LastName)
+                .Take(5)
                 .ToArray();
               
 

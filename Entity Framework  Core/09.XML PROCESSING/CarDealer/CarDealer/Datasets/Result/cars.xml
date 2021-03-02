@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-16"?>
-<Cars>
+<cars>
   <car>
     <make>BMW</make>
     <model>1M Coupe</model>
@@ -180,4 +180,4 @@
     <model>Vectra</model>
     <travelled-distance>238042093</travelled-distance>
   </car>
-</Cars>
+</cars>
