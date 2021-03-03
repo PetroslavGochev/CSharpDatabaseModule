@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace RealEstates.ConsoleApplication
+namespace RealEstates.Data
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+           
         }
     }
 }

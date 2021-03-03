@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace RealEstates.Models
+﻿namespace RealEstates.Models
 {
-    class RealEstatePropertyTag
+    public class RealEstatePropertyTag
     {
+
+        public int PropertyId { get; set; }
+        public virtual RealEstateProperty Property { get; set; }
+
+        public int PropertyTagId { get; set; }
+
+        public virtual Tag PropertyTag { get; set; }
     }
 }

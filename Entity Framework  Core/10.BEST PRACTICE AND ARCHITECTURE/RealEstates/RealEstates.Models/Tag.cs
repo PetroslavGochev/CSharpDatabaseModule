@@ -1,10 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace RealEstates.Models
 {
-    class Tag
+    public class Tag
     {
+        public Tag()
+        {
+            this.Properties = new HashSet<RealEstatePropertyTag>();
+        }
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
+        public string Description { get; set; }
+
+        public virtual ICollection<RealEstatePropertyTag> Properties { get; set; }
     }
 }
