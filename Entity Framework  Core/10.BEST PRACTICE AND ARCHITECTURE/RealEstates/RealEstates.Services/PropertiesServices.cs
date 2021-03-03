@@ -18,6 +18,10 @@ namespace RealEstates.Services
         }
         public void Create(string district, int size, string buildingType, string propertyType, decimal price, int? year, byte? floor, byte? totalFloor)
         {
+            if(district == null)
+            {
+                throw new ArgumentNullException(nameof(district));
+            }
             RealEstateProperty property = new RealEstateProperty()
             {
                 Size = size,
@@ -197,10 +201,9 @@ namespace RealEstates.Services
             if(tags == null)
             {
                 tags = new Tag() { Name = tag };
+                db.Tags.Add(tags);
+                db.SaveChanges();
             }
-            db.Tags.Add(tags);
-            db.SaveChanges();
-
             return db.Tags.Where(t => t.Name == tag).FirstOrDefault();
         }
     }
