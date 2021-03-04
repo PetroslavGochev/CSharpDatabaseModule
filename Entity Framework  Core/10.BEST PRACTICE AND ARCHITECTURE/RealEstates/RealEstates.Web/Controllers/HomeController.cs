@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using RealEstates.Services;
 using RealEstates.Web.Models;
 using System;
 using System.Collections.Generic;
@@ -11,16 +12,18 @@ namespace RealEstates.Web.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IDistrictServices districtServices;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IDistrictServices districtServices)
         {
-            _logger = logger;
+            this.districtServices = districtServices;
         }
+   
 
         public IActionResult Index()
         {
-            return View();
+            var districts = this.districtServices.GetDistrictsByAveragePrice(1000);
+            return View(districts);
         }
 
         public IActionResult Privacy()
