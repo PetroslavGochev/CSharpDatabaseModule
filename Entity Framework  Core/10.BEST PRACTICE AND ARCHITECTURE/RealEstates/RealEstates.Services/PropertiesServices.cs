@@ -91,12 +91,12 @@ namespace RealEstates.Services
         }
         
 
-        public IEnumerable<PropertyViewModel> Search(int minYear, int maxYear, int maxSize, int minSize)
+        public IEnumerable<PropertyViewModel> Search(int minYear, int maxYear, int minSize , int maxSize)
         {
             var properties = db.RealEstateProperties
                .Where(rep => rep.Year >= minYear && rep.Year <= maxYear && rep.Size >= minSize && rep.Size <= maxSize)
                .Select(MapToPropertyViewModel())
-               .OrderBy(x => x.Price)
+               .OrderBy(x => x.Size)
                .ToArray();
 
             return properties;

@@ -23,6 +23,17 @@ namespace RealEstates.Web.Controllers
             var properties = this.propertyServices.SearchByPrice(minPrice, maxPrice);
             return this.View(properties);
         }
+        public IActionResult SearchBySize()
+        {
+
+            return this.View();
+        }
+        public IActionResult DoSearchBySize(int minYear, int maxYear,int minSize,int maxSize)
+        {
+            var properties = this.propertyServices.Search(minYear, maxYear, minSize, maxSize);
+            return this.View(properties);
+        }
+
     }
 
 }
