@@ -32,6 +32,7 @@ namespace RealEstates.Web
             });
             services.AddTransient<IDistrictServices, DistrictServices>();
             services.AddTransient<IPropertiesServices, PropertiesServices>();
+            services.AddTransient<ITagServices, TagServices>();
             services.AddControllersWithViews();
         }
 

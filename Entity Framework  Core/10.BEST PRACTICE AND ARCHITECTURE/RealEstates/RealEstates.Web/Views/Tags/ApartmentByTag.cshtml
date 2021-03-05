@@ -1,0 +1,18 @@
+﻿@using RealEstates.Models
+@model IList<Tag>
+<h1 class="text-center">Search apartment by tag</h1>
+<hr />
+<form method="get" action="/Tags/DoSearchByTags" class="col-md-6">
+<div class="form-group">
+    <label for="tag">Tags</label>
+    <select id="tag" class="form-control" name="tag">
+
+        @foreach (var tag in Model)
+        {
+            <option value="@tag.Name">@tag.Name</option>
+        }
+    </select>
+    <hr />
+</div>
+<input type="submit" class="btn btn-primary float-right" value="Search" />
+</form>

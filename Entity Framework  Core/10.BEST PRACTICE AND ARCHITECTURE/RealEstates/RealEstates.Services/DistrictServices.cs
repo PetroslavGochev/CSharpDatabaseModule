@@ -26,7 +26,16 @@ namespace RealEstates.Services
 
             return districts;
         }
+        public IEnumerable<DistrictViewModel> GetDistrictsByNumberOfProperties(int count = 10)
+        {
+            var districts = db.Districts
+                .OrderByDescending(d=>d.Properties.Count)
+                .Take(count)
+                .Select(MapToDistrictViewModel())
+                .ToArray();
 
+            return districts;
+        }
         private static Expression<Func<District, DistrictViewModel>> MapToDistrictViewModel()
         {
             return d => new DistrictViewModel()
@@ -37,17 +46,6 @@ namespace RealEstates.Services
                 AveragePrice = d.Properties.Average(p => p.Price),
                 PropertiesCounts = d.Properties.Count
             };
-        }
-
-        public IEnumerable<DistrictViewModel> GetDistrictsByNumberOfProperties(int count = 10)
-        {
-            var districts = db.Districts
-                .OrderByDescending(d=>d.Properties.Count)
-                .Take(count)
-                .Select(MapToDistrictViewModel())
-                .ToArray();
-
-            return districts;
         }
     }
 }
