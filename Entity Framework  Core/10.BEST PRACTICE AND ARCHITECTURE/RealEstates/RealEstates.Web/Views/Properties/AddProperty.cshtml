@@ -1,0 +1,30 @@
+﻿<h1 class="text-center">Create new property!</h1>
+<hr />
+<form method="get" action="/Properties/CreateProperty" class="col-md-6 mb-2">
+    <div>
+        District <input name="district" class="form-control" required />
+    </div>
+    <div>
+        Size: <input name="size" class="form-control" required/>
+    </div>
+    <div>
+        BuldingType: <input name="buildingType" class="form-control" required/>
+    </div>
+    <div>
+        PropertyType: <input name="propertyType" class="form-control" required/>
+    </div>
+    <div>
+        Price: <input name="price" class="form-control" required />
+    </div>
+    <div>
+        Year: <input name="year" class="form-control" />
+    </div>
+    <div>
+        Floor: <input name="floor" class="form-control" />
+    </div>
+    <div>
+        TotalFloor: <input name="totalFloor" class="form-control" />
+    </div>
+    <hr />
+    <input type="submit" class ="btn btn-primary float-right mb-2" value="Create" />
+</form>
