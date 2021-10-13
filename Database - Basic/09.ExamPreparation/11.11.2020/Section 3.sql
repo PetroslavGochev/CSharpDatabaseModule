@@ -64,24 +64,17 @@ ORDER BY DistributorName,IngredientName, ProductName
 
 
 -- 10. Country Representative
-
-SELECT 
-c.Name,
-D.Name
-FROM Countries AS C
-JOIN Distributors AS D ON D.CountryId = C.Id
-JOIN Ingredients AS I ON I.OriginCountryId = C.Id
-GROUP BY D.Id, I.Id,D.Name
-ORDER BY C.Name, D.Name
-
-SELECT * FROM Ingredients
-
-SELECT 
-*
-FROM Countries AS C
-JOIN Distributors AS D ON D.CountryId = C.Id
-
-SELECT D.Name FROM Distributors AS D
-JOIN Ingredients AS I ON I.DistributorId = D.Id
-JOIN Countries AS C ON C.Id = D.CountryId
-GROUP BY D.Name
+SELECT
+	CountryName,
+	DistributorName
+	FROM (SELECT 
+		c.Name AS CountryName,
+		d.Name AS DistributorName,
+		COUNT(i.Id) AS Count, 
+		DENSE_RANK() OVER (PARTITION BY c.Name ORDER BY COUNT(i.Id) DESC) AS [Rank]
+		FROM Countries AS c
+		JOIN Distributors AS d ON c.Id = d.CountryId 
+		LEFT JOIN Ingredients AS i ON d.Id = i.DistributorId
+		GROUP BY c.Name, d.Name) as temp
+	WHERE Rank = 1
+	ORDER BY CountryName, DistributorName
