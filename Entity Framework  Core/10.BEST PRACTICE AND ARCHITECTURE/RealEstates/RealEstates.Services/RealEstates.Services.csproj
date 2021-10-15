@@ -1,12 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
+ClicksAndDrive Web Project
 
-  <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-  </PropertyGroup>
+01.Fix All Warning
+02. Edit Model to ViewModel
+04. Edit form image
+07. About us page 
+08. Contact page
+09. Check all pages
+10. Save First and LastName
+11. Global constants
+12. Unit test - 65 % 
+13. Price list
+14. Orders add description
+15. Users
 
-  <ItemGroup>
-    <ProjectReference Include="..\RealEstates.Data\RealEstates.Data.csproj" />
-    <ProjectReference Include="..\RealEstates.Models\RealEstates.Models.csproj" />
-  </ItemGroup>
 
-</Project>
+Nice to have
+01. Pages
+02. Two Languages (English/Bulgarian)
+03. OOP - create Table Vehicle and one to many
+04. Facebook and Google Account login
+05. Rating and comments
+06. Email Sender
